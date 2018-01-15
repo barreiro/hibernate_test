@@ -40,6 +40,7 @@ public class JPAUnitTestCase {
 		entityManager.getTransaction().begin();
 
 		MyFieldEntity myFieldEntity = new MyFieldEntity();
+		// This direct access on the field bypasses the bytecode enhancement logic and causes the test to fail
 		myFieldEntity.id = "myid";
 		entityManager.persist(myFieldEntity);
 
@@ -50,7 +51,8 @@ public class JPAUnitTestCase {
 		entityManager.getTransaction().commit();
 
 		entityManager.getTransaction().begin();
-
+		
+		// Same in this case: the bytecode enhacement logic is not triggered by this direc access to the field
 		myFieldEntity.myfield = "myfieldvalue";
 		myMethodEntity.setMyfield("mymethodvalue");
 
